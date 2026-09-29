@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Dataset & Model | ML Intrusion Detection & Mail Guard{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Dataset and Model Information</h1>
+        <p>Overview of the data sources, features, preprocessing, and the models used in this project.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container two-col">
+        <div class="card">
+            <h3>Dataset Details</h3>
+            <ul class="info-list">
+                <li><strong>Intrusion dataset:</strong> {{ dataset_info.intrusion_dataset }}</li>
+                <li><strong>Source:</strong> {{ dataset_info.intrusion_source }}</li>
+                <li><strong>Mail dataset:</strong> {{ dataset_info.mail_dataset }}</li>
+                <li><strong>Target labels:</strong> {{ dataset_info.target_labels | join(', ') }}</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>Model Summary</h3>
+            <ul class="info-list">
+                <li><strong>Intrusion model:</strong> Random Forest Classifier</li>
+                <li><strong>Mail model:</strong> TF-IDF + Logistic Regression</li>
+                <li><strong>Why selected:</strong> These models are easy to train locally, interpret, and explain for a student project.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="card">
+            <h3>Preprocessing and Training</h3>
+            <ul class="info-list">
+                {% for item in dataset_info.preprocessing %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+            <p>When a real dataset file is placed in <strong>data/raw/</strong>, the model training scripts read it, clean it, split it into train/test sets, train the ML models, and save the required artifacts to the <strong>models/</strong> folder.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

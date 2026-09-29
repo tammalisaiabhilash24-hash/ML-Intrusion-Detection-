@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container centered-box">
+        <div class="card error-card">
+            <h1>404</h1>
+            <h2>Page not found</h2>
+            <p>{{ message or 'The page you requested does not exist.' }}</p>
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Go to Home</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

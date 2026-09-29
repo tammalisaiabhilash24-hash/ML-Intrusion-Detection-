@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}History | ML Intrusion Detection & Mail Guard{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Prediction History</h1>
+        <p>Review past intrusion and mail scans saved in the local database.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="card">
+            <form method="get" class="filter-form">
+                <div class="field-inline">
+                    <label>Type</label>
+                    <select name="type">
+                        <option value="all" {% if type_filter == 'all' %}selected{% endif %}>All</option>
+                        <option value="intrusion" {% if type_filter == 'intrusion' %}selected{% endif %}>Intrusion</option>
+                        <option value="mail_guard" {% if type_filter == 'mail_guard' %}selected{% endif %}>Mail Guard</option>
+                    </select>
+                </div>
+                <div class="field-inline">
+                    <label>Status</label>
+                    <select name="status">
+                        <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
+                        <option value="normal" {% if status_filter == 'normal' %}selected{% endif %}>Normal</option>
+                        <option value="safe" {% if status_filter == 'safe' %}selected{% endif %}>Safe</option>
+                        <option value="intrusion" {% if status_filter == 'intrusion' %}selected{% endif %}>Intrusion</option>
+                        <option value="suspicious" {% if status_filter == 'suspicious' %}selected{% endif %}>Suspicious</option>
+                        <option value="spam" {% if status_filter == 'spam' %}selected{% endif %}>Spam</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Apply Filter</button>
+            </form>
+            {% if cleared %}
+            <div class="alert alert-success">History cleared successfully.</div>
+            {% endif %}
+            {% if rows %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date / Time</th>
+                            <th>Type</th>
+                            <th>Prediction</th>
+                            <th>Confidence</th>
+                            <th>Risk</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in rows %}
+                        <tr>
+                            <td>{{ row['timestamp'] }}</td>
+                            <td>{{ row['type'] }}</td>
+                            <td><span class="badge {% if row['prediction'] in ['INTRUSION', 'SPAM', 'PHISHING', 'SUSPICIOUS'] %}badge-danger{% else %}badge-success{% endif %}">{{ row['prediction'] }}</span></td>
+                            <td>{{ row['confidence'] }}%</td>
+                            <td>{{ row['risk_level'] }}</td>
+                            <td>{{ row['details'] or row['extra'] or 'Result stored in database.' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="empty-state">No predictions available yet.</p>
+            {% endif %}
+            <form method="post" action="{{ url_for('clear_history') }}" onsubmit="return confirm('Clear all prediction history? This action cannot be undone.');">
+                <button type="submit" class="btn btn-secondary danger">Clear History</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

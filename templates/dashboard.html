@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | ML Intrusion Detection & Mail Guard{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Cybersecurity Dashboard</h1>
+        <p>Monitor recent detections and review local prediction activity.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card accent-blue">
+                <span>Total Scans</span>
+                <strong>{{ total_scans }}</strong>
+            </div>
+            <div class="stat-card accent-green">
+                <span>Normal Traffic</span>
+                <strong>{{ normal_count }}</strong>
+            </div>
+            <div class="stat-card accent-red">
+                <span>Detected Intrusions</span>
+                <strong>{{ intrusion_count }}</strong>
+            </div>
+            <div class="stat-card accent-purple">
+                <span>Mail Scans</span>
+                <strong>{{ mail_count }}</strong>
+            </div>
+            <div class="stat-card accent-warning">
+                <span>Suspicious Emails</span>
+                <strong>{{ suspicious_mail }}</strong>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container chart-grid">
+        <div class="card chart-card">
+            <h3>Normal vs Intrusion</h3>
+            <div class="bar-chart" data-values="{{ [normal_count, intrusion_count] | tojson }}" data-labels='["Normal", "Intrusion"]'></div>
+        </div>
+        <div class="card chart-card">
+            <h3>Mail Guard Results</h3>
+            <div class="bar-chart" data-values="{{ [mail_count - suspicious_mail, suspicious_mail] | tojson }}" data-labels='["Safe", "Suspicious"]'></div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="card">
+            <h3>Recent Predictions</h3>
+            {% if recent_predictions %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date/Time</th>
+                            <th>Type</th>
+                            <th>Prediction</th>
+                            <th>Confidence</th>
+                            <th>Risk</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for prediction in recent_predictions %}
+                        <tr>
+                            <td>{{ prediction['timestamp'] }}</td>
+                            <td>{{ prediction['type'] }}</td>
+                            <td><span class="badge {% if prediction['prediction'] in ['INTRUSION', 'SPAM', 'PHISHING', 'SUSPICIOUS'] %}badge-danger{% else %}badge-success{% endif %}">{{ prediction['prediction'] }}</span></td>
+                            <td>{{ prediction['confidence'] }}%</td>
+                            <td>{{ prediction['risk_level'] }}</td>
+                            <td>{{ prediction['details'] or 'System analysis result.' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="empty-state">No predictions available yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

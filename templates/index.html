@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | ML Intrusion Detection & Mail Guard{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-grid">
+        <div>
+            <p class="eyebrow">INTELLIGENT THREAT DETECTION</p>
+            <h1>ML Intrusion Detection & Mail Guard</h1>
+            <p class="hero-subtitle">Intelligent Threat Detection for Network Traffic and Email Communication</p>
+            <div class="cta-row">
+                <a class="btn btn-primary" href="{{ url_for('dashboard') }}">Open Dashboard</a>
+                <a class="btn btn-secondary" href="{{ url_for('intrusion_page') }}">Scan Network Traffic</a>
+                <a class="btn btn-secondary" href="{{ url_for('mail_guard_page') }}">Scan Email</a>
+            </div>
+        </div>
+        <div class="hero-panel">
+            <div class="signal-card">
+                <span class="signal-label">Threat Overview</span>
+                <div class="signal-row">
+                    <span>Network</span>
+                    <strong>Monitoring</strong>
+                </div>
+                <div class="signal-row">
+                    <span>Mail</span>
+                    <strong>Screening</strong>
+                </div>
+                <div class="signal-row">
+                    <span>Local</span>
+                    <strong>Analysis</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="grid three-col">
+            <div class="feature-card">
+                <h3>Network Intrusion Detection</h3>
+                <p>Analyze flow-based traffic characteristics to detect suspicious network activity using a trained ML classifier.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Mail Guard</h3>
+                <p>Review sender, subject, body, and URL clues to identify potentially spammy or malicious messages.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Real-time Local Analysis</h3>
+                <p>All analysis runs locally in the browser-connected Flask app with prediction history saved in SQLite.</p>
+            </div>
+            <div class="feature-card">
+                <h3>ML-powered Classification</h3>
+                <p>Classification is driven by trained models and not hard-coded rules.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Prediction History</h3>
+                <p>Track both network and mail scans in one dashboard for easy comparison and review.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Beginner Friendly</h3>
+                <p>The design and workflow are kept simple so the project is easy to explain in a college presentation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

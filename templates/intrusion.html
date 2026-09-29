@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Intrusion Detection | ML Intrusion Detection & Mail Guard{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Network Intrusion Analysis</h1>
+        <p>Enter the traffic characteristics and let the ML model estimate whether the session looks normal or suspicious.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container two-col">
+        <div class="card">
+            <h3>Traffic Feature Input</h3>
+            {% if error %}
+            <div class="alert alert-error">{{ error }}</div>
+            {% endif %}
+            <form method="post" action="{{ url_for('predict_intrusion') }}">
+                <div class="form-grid">
+                    {% for feature in features %}
+                    <div class="field">
+                        <label for="{{ feature|replace(' ', '_') }}">{{ feature }}</label>
+                        <input type="number" step="any" id="{{ feature|replace(' ', '_') }}" name="{{ feature }}" value="{{ form_data.get(feature, '') if form_data else '' }}" required>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Analyze Traffic</button>
+            </form>
+        </div>
+
+        <div class="card result-card">
+            <h3>Prediction Result</h3>
+            {% if result %}
+            <div class="result-box">
+                <p><strong>Prediction:</strong> <span class="badge {% if result.prediction == 'INTRUSION' %}badge-danger{% else %}badge-success{% endif %}">{{ result.prediction }}</span></p>
+                <p><strong>Confidence:</strong> {{ result.confidence }}%</p>
+                <p><strong>Risk level:</strong> {{ result.risk_level }}</p>
+                <p><strong>Explanation:</strong> {{ result.explanation }}</p>
+            </div>
+            {% else %}
+            <p class="empty-state">No analysis has been run yet. Enter traffic values to begin.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

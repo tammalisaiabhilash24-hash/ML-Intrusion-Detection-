@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}About | ML Intrusion Detection & Mail Guard{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>How It Works</h1>
+        <p>A beginner-friendly explanation of the local intrusion and email detection workflow.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container feature-stack">
+        <div class="card">
+            <h3>1. User enters data</h3>
+            <p>The user provides network traffic metrics or email information using the forms on the web pages.</p>
+        </div>
+        <div class="card">
+            <h3>2. Frontend sends request</h3>
+            <p>The browser sends the form data to the Flask backend.</p>
+        </div>
+        <div class="card">
+            <h3>3. Flask validates the input</h3>
+            <p>Missing or invalid numeric values are blocked with clear error messages.</p>
+        </div>
+        <div class="card">
+            <h3>4. Preprocessing is applied</h3>
+            <p>The system converts the data to the same format used during training, including scaling and feature ordering.</p>
+        </div>
+        <div class="card">
+            <h3>5. ML model makes prediction</h3>
+            <p>The trained model evaluates the input and returns a class such as NORMAL, INTRUSION, SAFE, or SUSPICIOUS.</p>
+        </div>
+        <div class="card">
+            <h3>6. Result is saved</h3>
+            <p>Prediction results are stored in SQLite and appear on the dashboard and in the history page.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="card">
+            <h3>Basic Concepts</h3>
+            <ul class="info-list">
+                <li><strong>Intrusion Detection System:</strong> A system that identifies unusual or malicious network behavior.</li>
+                <li><strong>Machine Learning:</strong> A way for computers to learn patterns from data instead of hard-coding rules.</li>
+                <li><strong>Classification:</strong> Predicting a category such as NORMAL or INTRUSION.</li>
+                <li><strong>Spam detection:</strong> Detecting unwanted or suspicious messages.</li>
+                <li><strong>Phishing:</strong> Fake messages designed to trick users into revealing credentials or money.</li>
+                <li><strong>Precision:</strong> Of all the predicted attacks, how many were actually attacks?</li>
+                <li><strong>Recall:</strong> Of all the real attacks, how many were correctly detected?</li>
+                <li><strong>F1-score:</strong> A balanced score combining precision and recall.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}
